@@ -5,7 +5,7 @@ node_js:
 before_install:
     - "npm install -g npm@^2"
 install:
-    - npm install -g bower
+    - npm install -g quasar
     - npm install
 script:
-    - ember test --server
+    - quasar build -m electron
