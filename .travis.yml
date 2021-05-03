@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "node"
+
+before_install:
+    - "npm install -g npm@^2"
+install:
+    - npm install -g bower
+    - npm install
+script:
+    - ember test --server
