@@ -11,7 +11,7 @@
             >
 
             <template v-slot:top>
-                IP телефония
+                IP телефония. Городской номер: <b>8-499-995-03-23</b>
                 <q-space />
                 <q-input  dense color="primary" v-model="filter" label='Поиск'>
                 <template v-slot:append>

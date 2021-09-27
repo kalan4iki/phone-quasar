@@ -1,10 +1,14 @@
 {
   "name": "phone-qu",
-  "version": "0.0.1",
-  "description": "A Quasar Framework app",
+  "version": "1.0.5",
+  "description": "IT программа Администрации",
   "productName": "Phones",
   "author": "kalan4ik <vvk@istra-adm.ru>",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kalan4iki/phone-quasar.git"
+  },
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
@@ -13,6 +17,8 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "electron-log": "^4.3.5",
+    "electron-updater": "^4.3.9",
     "quasar": "^1.0.0",
     "update-electron-app": "^2.0.1"
   },
@@ -20,7 +26,8 @@
     "@quasar/app": "^2.0.0",
     "babel-eslint": "^10.0.1",
     "devtron": "^1.4.0",
-    "electron": "^9.4.4",
+    "electron": "^15.0.0",
+    "electron-builder": "^22.10.5",
     "electron-debug": "^3.2.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-packager": "^14.2.1",

@@ -163,7 +163,7 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
-      bundler: 'packager', // 'packager' or 'builder'
+      bundler: 'builder', // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -181,12 +181,32 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'phone-qu'
+        appId: 'com.phone.quasar',
+        buildVersion: '1.0.5',
+        win: {
+          target: ["nsis", "msi", 'zip']
+        },
+        linux: {
+          target: ['dir', '7z', 'deb']
+        },
+        publish: {
+          'provider': 'github',
+          'releaseType': 'release'
+        }
       },
 
       // More info: https://v1.quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
-
+	  // chainWebpackMain (chain) {
+    //   // example for its content (adds linting)
+    //    chain.plugin('eslint-webpack-plugin')
+    //    .use(ESLintPlugin, [{ extensions: ['js'] }])
+    //   },
+	  // chainWebpackPreload (chain) {
+    //   // example (adds linting)
+    //     chain.plugin('eslint-webpack-plugin')
+    //     .use(ESLintPlugin, [{ extensions: ['js'] }])
+    //   },
       extendWebpack (/* cfg */) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
