@@ -5,7 +5,9 @@ import { autoUpdater } from "electron-updater"
 // __dirname = path.resolve();
 const log = require('electron-log');
 app.disableHardwareAcceleration()
-autoUpdater.checkForUpdatesAndNotify()
+if (process.env.PROD) {
+  autoUpdater.checkForUpdatesAndNotify()
+}
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
@@ -39,7 +41,7 @@ function createWindow () {
     width: 700,
     height: 800,
     useContentSize: true,
-    frame: false,
+    // frame: false,
     webPreferences: {
       nodeIntegration: process.env.QUASAR_NODE_INTEGRATION,
       nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION,
@@ -60,32 +62,33 @@ let appIcon = null
 app.on('ready', () => {
   netLog.startLogging(path.resolve(__dirname, '/logs.log'))
   appIcon = new Tray(path.resolve(__statics, 'linux-512x512.png'))
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Открыть приложение',
-      click: () => {
-        mainWindow.show()
-      }
-    },
-    {
-      label: 'Закрыть',
-      click: () => {
-        appIcon.destroy()
-        app.exit()
+  // const contextMenu = Menu.buildFromTemplate([
+  //   {
+  //     label: 'Открыть приложение',
+  //     click: () => {
+  //       mainWindow.show()
+  //     }
+  //   },
+  //   {
+  //     label: 'Закрыть',
+  //     click: () => {
+  //       appIcon.destroy()
+  //       app.exit()
         
-      }
-    }
-  ])
-  appIcon.on('click', () => {
-    mainWindow.show()
-  });
-  appIcon.setToolTip('Список телефонов')
-  appIcon.setContextMenu(contextMenu)
+  //     }
+  //   }
+  // ])
+  // appIcon.on('click', () => {
+  //   mainWindow.show()
+  // });
+  // appIcon.setToolTip('Список телефонов')
+  // appIcon.setContextMenu(contextMenu)
   createWindow()
 })
 
 ipcMain.on('hide-window-user', () => {
-  mainWindow.hide()
+  // mainWindow.hide()
+  app.quit()
 })
 
 const events = require('events');
@@ -94,8 +97,11 @@ const ee1 = new events.EventEmitter();
 ee1.on('click', () => {console.log(appIcon)});
 
 app.on('window-all-closed', (event) => {
-  event.preventDefault()
-  mainWindow.hide()
+  // event.preventDefault()
+  // mainWindow.hide()
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })
 
 app.on('activate', () => {

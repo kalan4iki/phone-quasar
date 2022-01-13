@@ -182,7 +182,7 @@ module.exports = function (/* ctx */) {
         // https://www.electron.build/configuration/configuration
 
         appId: 'com.phone.quasar',
-        buildVersion: '1.0.5',
+        buildVersion: '1.0.6',
         win: {
           target: ["nsis", "msi", 'zip']
         },

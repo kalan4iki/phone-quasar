@@ -3,7 +3,9 @@ import path from 'path'
 import { autoUpdater } from "electron-updater"
 const log = require('electron-log');
 app.disableHardwareAcceleration()
-autoUpdater.checkForUpdatesAndNotify()
+if (process.env.PROD) {
+  autoUpdater.checkForUpdatesAndNotify()
+}
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
     require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
@@ -21,6 +23,7 @@ function showNotification (title, bodys) {
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
+log.info(process.env.NODE_ENV)
 const server = 'http://ph.istra-adm.ru'
 // const url = `${server}/update/${process.platform}/${app.getVersion()}`
 
@@ -40,10 +43,10 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    width: 700,
+    width: 900,
     height: 800,
-    useContentSize: true,
-    frame: false,
+    // useContentSize: true,
+    // frame: false,
     webPreferences: {
       // Change from /quasar.conf.js > electron > nodeIntegration;
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
@@ -71,27 +74,27 @@ app.on('ready', () => {
   appIcon = new Tray(path.resolve(__statics, 'linux-512x512.png'))
 
 
-  const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Открыть приложение',
-      click: () => {
-        mainWindow.show()
-      }
-    },
-    {
-      label: 'Закрыть',
-      click: () => {
-        appIcon.destroy()
-        app.exit()
+  // const contextMenu = Menu.buildFromTemplate([
+  //   {
+  //     label: 'Открыть приложение',
+  //     click: () => {
+  //       mainWindow.show()
+  //     }
+  //   },
+  //   {
+  //     label: 'Закрыть',
+  //     click: () => {
+  //       appIcon.destroy()
+  //       app.exit()
         
-      }
-    }
-  ])
-  appIcon.on('click', () => {
-    mainWindow.show()
-  });
-  appIcon.setToolTip('Список телефонов')
-  appIcon.setContextMenu(contextMenu)
+  //     }
+  //   }
+  // ])
+  // appIcon.on('click', () => {
+  //   mainWindow.show()
+  // });
+  // appIcon.setToolTip('Список телефонов')
+  // appIcon.setContextMenu(contextMenu)
   
   // Создание окна
   createWindow()
@@ -99,7 +102,8 @@ app.on('ready', () => {
 })
 
 ipcMain.on('hide-window-user', () => {
-  mainWindow.hide()
+  // mainWindow.hide()
+  app.quit()
 })
 
 const events = require('events');
@@ -112,11 +116,11 @@ const ee1 = new events.EventEmitter();
 ee1.on('click', () => {console.log(appIcon)});
 
 app.on('window-all-closed', (event) => {
-  event.preventDefault()
-  mainWindow.hide()
-  // if (process.platform !== 'darwin') {
-  //   app.quit()
-  // }
+  // event.preventDefault()
+  // mainWindow.hide()
+  if (process.platform !== 'darwin') {
+    app.quit()
+  }
 })
 
 // app.on('before-quit', (event) => {

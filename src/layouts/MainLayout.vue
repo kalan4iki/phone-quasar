@@ -7,7 +7,7 @@
           Список телефонов
         </q-toolbar-title>
 
-        <div><q-btn flat color="" label="Закрыть" v-on:click='hidewindow' /></div>
+        <!-- <div><q-btn flat color="" label="Закрыть" v-on:click='hidewindow' /></div> -->
       </q-toolbar>
     </q-header>
 
@@ -29,7 +29,7 @@ export default {
   methods: {
     hidewindow: function () {
       const { ipcRenderer } = require('electron')
-      console.log(ipcRenderer)
+      // console.log(ipcRenderer)
       ipcRenderer.send('hide-window-user')
     }
   }

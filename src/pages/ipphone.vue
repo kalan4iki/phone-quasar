@@ -11,7 +11,7 @@
             >
 
             <template v-slot:top>
-                IP телефония. Городской номер: <b>8-499-995-03-23</b>
+                IP телефония. Городской номер: <b>{{cur_number}}</b>
                 <q-space />
                 <q-input  dense color="primary" v-model="filter" label='Поиск'>
                 <template v-slot:append>
@@ -31,6 +31,7 @@ export default {
     return {
       loading: true,
       filter: '',
+      cur_number: '',
       rowCount: 25,
       columns: [
             { label: 'Номер', align: 'center', name: 'number', field: 'number' },
@@ -47,6 +48,10 @@ export default {
       this.$axios({url: url}).then(function(response) {
           self.loading = false
           self.data = response['data']
+      })
+      url = 'getnumber/'
+      this.$axios({method: 'POST', url: url}).then(function(response) {
+          self.cur_number = response['data']['number']
       })
   }
 }
